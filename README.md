@@ -1,7 +1,7 @@
 # Memory Clearer miss-not ore dict
 
 ## 使用-中文
-当加载[Memory Clearer miss-not ore dict](https://github.com/MCTeamPotato/MCMOD)模组之后，会生成配置文件，路径在:  
+当加载[Memory Clearer Miss-not Ore Dict](https://github.com/MCTeamPotato/MCMOD)模组之后，会生成配置文件，路径在:  
 "config\Memory Clearer miss-not ore dict\config.json" 
 我将逐个讲解：  
 {  
@@ -11,7 +11,7 @@
 }
 ## Usage-English
 
-When loading[Memory Cleaner miss not ore dict](https://github.com/MCTeamPotato/MCMOD) After the mod, a configuration file will be generated with the path:  
+When loading[Memory Clearer Miss-not Ore Dict](https://github.com/MCTeamPotato/MCMOD) After the mod, a configuration file will be generated with the path:  
 "config\Memory Clearer miss-not ore dict\config.json"  
 I will explain one by one:  
 {    
