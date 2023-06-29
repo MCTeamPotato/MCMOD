@@ -1,4 +1,4 @@
-# Memory Clearer miss-not ore dict
+# Memory Clearer Miss-not Ore Dict
 
 ## 使用-中文
 当加载[Memory Clearer Miss-not Ore Dict](https://github.com/MCTeamPotato/MCMOD)模组之后，会生成配置文件，路径在:  
