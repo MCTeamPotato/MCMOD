@@ -1,0 +1,4 @@
+{
+  "memoryclearermissnotoredict.memoryclear": "[Memory Clearer Miss-not Ore Dict] (客户端) 内存清理完毕！现在内存使用百分比: %d %s",
+  "memoryclearermissnotoredict.manualclear": "[Memory Clearer Miss-not Ore Dict] (客户端) 已开启手动清理！"
+}

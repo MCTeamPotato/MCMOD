@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "memoryclearermissnotoredict",
+  "version": "${version}",
+
+  "name": "Memory Clearer Miss-not Ore Dict",
+  "description": "ClearMemory",
+  "authors": [
+    "MCTeamPotato",
+    "Awei"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "GPLv3",
+  "icon": "assets/memoryclearermissnotoredict/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "team.teampotato.MCMOD.MCMOD",
+      "team.teampotato.MCMOD.common.config"
+    ],
+    "client": [
+      "team.teampotato.MCMOD.client.CommandClient",
+      "team.teampotato.MCMOD.client.MemoryClearClient"
+    ],
+    "server": [
+      "team.teampotato.MCMOD.server.CommandServer",
+      "team.teampotato.MCMOD.server.MemoryClearServer"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "~1.19.2",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
