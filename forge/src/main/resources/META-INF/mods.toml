@@ -1,0 +1,35 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = ""
+license = "GPLv3"
+
+[[mods]]
+modId = "memorycleanermissnotoredict"
+version = "${version}"
+displayName = "Memory Cleaner Miss-not Ore Dict"
+authors = "MCTeamPotato, Awei, TexTrue"
+description = '''
+Memory Cleaner
+'''
+#logoFile = ""
+
+[[dependencies.memorycleanermissnotoredict]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.memorycleanermissnotoredict]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19,1.19.2]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.memorycleanermissnotoredict]]
+modId = "architectury"
+mandatory = true
+versionRange = "[6,)"
+ordering = "AFTER"
+side = "BOTH"

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "memorycleanermissnotoredict",
+  "version": "${version}",
+  "name": "Memory Cleaner Miss-not Ore Dict",
+  "description": "Memory Cleaner",
+  "authors": [
+    "MCTeamPotato, Awei, TexTrue"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "GPLv3",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "team.teampotato.memorycleanermissnotoredict.fabric.MCMODModFabric"
+    ],
+    "client": [
+      "team.teampotato.memorycleanermissnotoredict.fabric.MCMODModClientFabric"
+    ],
+    "server": [
+      "team.teampotato.memorycleanermissnotoredict.fabric.MCMODModServerFabric"
+    ]
+  },
+  "depends": {
+    "fabric": "*",
+    "minecraft": "1.19~1.19.2",
+    "architectury": ">=6.0"
+  }
+}
