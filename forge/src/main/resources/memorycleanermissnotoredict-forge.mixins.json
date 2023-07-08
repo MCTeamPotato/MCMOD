@@ -7,7 +7,6 @@
   ],
   "client": [
     "ClientCommandSourceMixin",
-    "ClientPlayerEntityMixin",
     "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {

@@ -37,19 +37,17 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandException;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 
-import team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandManager;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.api.FabricClientCommandSource;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.mixin.HelpCommandAccessor;
 
-@OnlyIn(Dist.CLIENT)
+import static team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandManager.argument;
+import static team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandManager.literal;
+
 public final class ClientCommandInternals {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientCommandInternals.class);
     private static final String API_COMMAND_NAME = "fabric-command-api-v2:client";
@@ -132,7 +130,7 @@ public final class ClientCommandInternals {
         Text message = Texts.toText(e.getRawMessage());
         String context = e.getContext();
 
-        return context != null ? Text.translatable("command.context.parse_error", message, context) : message;
+        return context != null ? Text.translatable("command.context.parse_error", message, e.getCursor(), context) : message;
     }
 
     /**
@@ -143,12 +141,12 @@ public final class ClientCommandInternals {
         if (!activeDispatcher.getRoot().getChildren().isEmpty()) {
             // Register an API command if there are other commands;
             // these helpers are not needed if there are no client commands
-            LiteralArgumentBuilder<FabricClientCommandSource> help = ClientCommandManager.literal("help");
+            LiteralArgumentBuilder<FabricClientCommandSource> help = literal("help");
             help.executes(ClientCommandInternals::executeRootHelp);
-            help.then(ClientCommandManager.argument("command", StringArgumentType.greedyString()).executes(ClientCommandInternals::executeArgumentHelp));
+            help.then(argument("command", StringArgumentType.greedyString()).executes(ClientCommandInternals::executeArgumentHelp));
 
-            CommandNode<FabricClientCommandSource> mainNode = activeDispatcher.register(ClientCommandManager.literal(API_COMMAND_NAME).then(help));
-            activeDispatcher.register(ClientCommandManager.literal(SHORT_API_COMMAND_NAME).redirect(mainNode));
+            CommandNode<FabricClientCommandSource> mainNode = activeDispatcher.register(literal(API_COMMAND_NAME).then(help));
+            activeDispatcher.register(literal(SHORT_API_COMMAND_NAME).redirect(mainNode));
         }
 
         // noinspection CodeBlock2Expr

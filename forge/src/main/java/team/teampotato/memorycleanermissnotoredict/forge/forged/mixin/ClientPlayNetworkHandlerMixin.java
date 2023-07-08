@@ -18,6 +18,9 @@ package team.teampotato.memorycleanermissnotoredict.forge.forged.mixin;
 
 import com.mojang.brigadier.CommandDispatcher;
 
+import net.minecraft.client.network.ClientDynamicRegistryType;
+import net.minecraft.registry.CombinedDynamicRegistries;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,6 +35,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.network.packet.s2c.play.CommandTreeS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandRegistrationEvent;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.api.FabricClientCommandSource;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.impl.ClientCommandInternals;
@@ -45,11 +49,17 @@ abstract class ClientPlayNetworkHandlerMixin {
     @Final
     private ClientCommandSource commandSource;
 
+    @Shadow
+    private FeatureSet enabledFeatures;
+
+    @Shadow
+    private CombinedDynamicRegistries<ClientDynamicRegistryType> combinedDynamicRegistries;
+
     @Inject(method = "onGameJoin", at = @At("RETURN"))
     private void onGameJoin(GameJoinS2CPacket packet, CallbackInfo info) {
         final CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
         ClientCommandInternals.setActiveDispatcher(dispatcher);
-        ClientCommandRegistrationEvent.EVENT.invoker().register(dispatcher, new CommandRegistryAccess(packet.registryManager()));
+        ClientCommandRegistrationEvent.EVENT.invoker().register(dispatcher, CommandRegistryAccess.of(this.combinedDynamicRegistries.getCombinedRegistryManager(), this.enabledFeatures));
         ClientCommandInternals.finalizeInit();
     }
 
@@ -60,5 +70,19 @@ abstract class ClientPlayNetworkHandlerMixin {
         // It's done here because both the server and the client commands have
         // to be in the same dispatcher and completion results.
         ClientCommandInternals.addCommands((CommandDispatcher) commandDispatcher, (FabricClientCommandSource) commandSource);
+    }
+
+    @Inject(method = "sendCommand", at = @At("HEAD"), cancellable = true)
+    private void onSendCommand(String command, CallbackInfoReturnable<Boolean> cir) {
+        if (ClientCommandInternals.executeCommand(command)) {
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "sendChatCommand", at = @At("HEAD"), cancellable = true)
+    private void onSendCommand(String command, CallbackInfo info) {
+        if (ClientCommandInternals.executeCommand(command)) {
+            info.cancel();
+        }
     }
 }
