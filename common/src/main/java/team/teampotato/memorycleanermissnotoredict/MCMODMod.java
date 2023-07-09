@@ -12,6 +12,6 @@ public class MCMODMod {
     public static final long clearTime = ConfigUtil.getConfig().cleanupInterval * 60 * 1000;
     
     public static void init() {
-
+        LOGGER.info("[Memory Clearer Miss-not Ore Dict] Memory Clearer Miss-not Ore Dict is loaded!");
     }
 }

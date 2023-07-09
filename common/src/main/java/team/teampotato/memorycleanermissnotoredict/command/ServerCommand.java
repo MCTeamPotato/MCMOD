@@ -10,7 +10,7 @@ public class ServerCommand {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal("mcmodserver")
                 .executes(context -> {
                     System.gc();
-                    context.getSource().sendFeedback(Text.translatable("[Memory Clearer Miss-not Ore Dict] (Server) Memory cleaning completed!").formatted(Formatting.GREEN), false);
+                    context.getSource().sendFeedback(() -> Text.translatable("[Memory Clearer Miss-not Ore Dict] (Server) Memory cleaning completed!").formatted(Formatting.GREEN), false);
                     return 1;
                 })
         ));

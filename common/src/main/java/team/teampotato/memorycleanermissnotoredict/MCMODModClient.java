@@ -12,7 +12,10 @@ public class MCMODModClient {
     public static void initClient() {
         MCMODMod.LOGGER.info(MCMODMod.MOD_NAME + " Running on client");
         ConfigUtil.setConfigScreen();
-        autoCleanMemory();
+
+        if (ConfigUtil.getConfig().autoCleanMemory) {
+            autoCleanMemory();
+        }
     }
 
     public static void autoCleanMemory() {
