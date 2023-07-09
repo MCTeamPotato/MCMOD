@@ -30,6 +30,13 @@ side = "BOTH"
 [[dependencies.memorycleanermissnotoredict]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6,)"
+versionRange = "[9,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.memorycleanermissnotoredict]]
+modId = "cloth_config"
+mandatory = true
+versionRange = "[11,)"
 ordering = "AFTER"
 side = "BOTH"

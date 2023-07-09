@@ -27,6 +27,7 @@
   "depends": {
     "fabric": "*",
     "minecraft": "1.20.x",
-    "architectury": "*"
+    "architectury": "*",
+    "cloth-config": "*"
   }
 }
