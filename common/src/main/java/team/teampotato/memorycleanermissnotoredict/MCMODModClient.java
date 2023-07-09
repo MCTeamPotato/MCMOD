@@ -26,27 +26,7 @@ public class MCMODModClient {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                Runtime runtime = Runtime.getRuntime();
-                System.gc();
-                long usedMemory = runtime.totalMemory() - runtime.freeMemory();
-                int memoryPercent = (int) (usedMemory * 100 / (double) runtime.maxMemory());
-                String memory = memoryPercent+"%";
-
-                // 计算进度条长度
-                int progressBarLength = memoryPercent / 10;
-
-                int remainingLength = 10 - progressBarLength;
-
-                // 构建进度条字符串
-                String progressBar = "[" + "■".repeat(Math.max(0, progressBarLength)) +
-                        "-".repeat(Math.max(0, remainingLength)) + "]";
-                // 在这里执行定时任务的逻辑
-                MinecraftClient.getInstance().execute(() -> {//
-                    if (MinecraftClient.getInstance().player != null) {
-                        MinecraftClient.getInstance().player.sendMessage(Text.translatable("memoryclearermissnotoredict.memoryclear",progressBar,memory).formatted(Formatting.GREEN),false);
-                    }
-                });
-
+                memoryClean();
             }
         };
 
