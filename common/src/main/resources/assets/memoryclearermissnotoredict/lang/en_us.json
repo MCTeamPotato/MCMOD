@@ -1,0 +1,8 @@
+{
+  "memoryclearermissnotoredict.memoryclear": "[Memory Clearer Miss-not Ore Dict] (Client) Memory cleanup is complete! Memory usage percentage now: %d %s",
+  "memoryclearermissnotoredict.manualclear": "[Memory Clearer Miss-not Ore Dict] (Client) Memory cleaning!",
+
+  "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory": "Enable Auto Clean Memory",
+  "text.autoconfig.memoryclearermissnotoredict.option.enableCommand": "Enable Command",
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "Clean Interval"
+}
