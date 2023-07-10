@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "[38,)"
 #issueTrackerURL = ""
 license = "GPLv3"
 
@@ -16,27 +16,27 @@ Memory Cleaner
 [[dependencies.memorycleanermissnotoredict]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[38,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.memorycleanermissnotoredict]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19,1.19.2]"
+versionRange = "[1.18,1.18.2]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.memorycleanermissnotoredict]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6,)"
+versionRange = "[4,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.memorycleanermissnotoredict]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[8,)"
+versionRange = "[6,)"
 ordering = "AFTER"
 side = "BOTH"

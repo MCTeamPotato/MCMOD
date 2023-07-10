@@ -16,6 +16,9 @@
 
 package team.teampotato.memorycleanermissnotoredict.forge.forged.mixin;
 
+import net.minecraft.network.MessageType;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,13 +40,12 @@ abstract class ClientCommandSourceMixin implements FabricClientCommandSource {
 
     @Override
     public void sendFeedback(Text message) {
-        this.client.inGameHud.getChatHud().addMessage(message);
-        this.client.getNarratorManager().narrate(message);
+        client.inGameHud.addChatMessage(MessageType.SYSTEM, message, Util.NIL_UUID);
     }
 
     @Override
     public void sendError(Text message) {
-        sendFeedback(Text.literal("").append(message).formatted(Formatting.RED));
+        client.inGameHud.addChatMessage(MessageType.SYSTEM, new LiteralText("").append(message).formatted(Formatting.RED), Util.NIL_UUID);
     }
 
     @Override

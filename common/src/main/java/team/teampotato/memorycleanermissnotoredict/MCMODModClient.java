@@ -1,7 +1,7 @@
 package team.teampotato.memorycleanermissnotoredict;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import team.teampotato.memorycleanermissnotoredict.config.ConfigUtil;
 
@@ -49,9 +49,9 @@ public class MCMODModClient {
         // 构建进度条字符串
         String progressBar = "[" + "■".repeat(Math.max(0, progressBarLength)) +
                 "-".repeat(Math.max(0, remainingLength)) + "]";
-        MinecraftClient.getInstance().execute(() -> {//
+        MinecraftClient.getInstance().execute(() -> {
             if (MinecraftClient.getInstance().player != null) {
-                MinecraftClient.getInstance().player.sendMessage(Text.translatable("memoryclearermissnotoredict.memoryclear",progressBar,memory).formatted(Formatting.GREEN),false);
+                MinecraftClient.getInstance().player.sendMessage(new TranslatableText("memoryclearermissnotoredict.memoryclear",progressBar,memory).formatted(Formatting.GREEN),false);
             }
         });
     }

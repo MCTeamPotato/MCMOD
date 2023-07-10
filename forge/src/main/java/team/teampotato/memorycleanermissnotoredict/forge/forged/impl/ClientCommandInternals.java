@@ -33,77 +33,75 @@ import com.mojang.brigadier.exceptions.BuiltInExceptionProvider;
 import com.mojang.brigadier.exceptions.CommandExceptionType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.CommandNode;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandException;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
-
-import team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandManager;
+import net.minecraft.text.TranslatableText;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.api.FabricClientCommandSource;
 import team.teampotato.memorycleanermissnotoredict.forge.forged.mixin.HelpCommandAccessor;
+
+import static team.teampotato.memorycleanermissnotoredict.forge.forged.api.ClientCommandManager.*;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientCommandInternals {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientCommandInternals.class);
-    private static final String API_COMMAND_NAME = "fabric-command-api-v2:client";
+    private static final char PREFIX = '/';
+    private static final String API_COMMAND_NAME = "fabric-command-api-v1:client";
     private static final String SHORT_API_COMMAND_NAME = "fcc";
-    private static @Nullable CommandDispatcher<FabricClientCommandSource> activeDispatcher;
-
-    public static void setActiveDispatcher(@Nullable CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        ClientCommandInternals.activeDispatcher = dispatcher;
-    }
-
-    public static @Nullable CommandDispatcher<FabricClientCommandSource> getActiveDispatcher() {
-        return activeDispatcher;
-    }
 
     /**
-     * Executes a client-sided command. Callers should ensure that this is only called
-     * on slash-prefixed messages and the slash needs to be removed before calling.
-     * (This is the same requirement as {@code ClientPlayerEntity#sendCommand}.)
+     * Executes a client-sided command from a message.
      *
-     * @param command the command with slash removed
-     * @return true if the command should not be sent to the server, false otherwise
+     * @param message the command message
+     * @return true if the message should not be sent to the server, false otherwise
      */
-    public static boolean executeCommand(String command) {
+    public static boolean executeCommand(String message) {
+        if (message.isEmpty()) {
+            return false; // Nothing to process
+        }
+
+        if (message.charAt(0) != PREFIX) {
+            return false; // Incorrect prefix, won't execute anything.
+        }
+
         MinecraftClient client = MinecraftClient.getInstance();
 
         // The interface is implemented on ClientCommandSource with a mixin.
         // noinspection ConstantConditions
         FabricClientCommandSource commandSource = (FabricClientCommandSource) client.getNetworkHandler().getCommandSource();
 
-        client.getProfiler().push(command);
+        client.getProfiler().push(message);
 
         try {
             // TODO: Check for server commands before executing.
             //   This requires parsing the command, checking if they match a server command
             //   and then executing the command with the parse results.
-            activeDispatcher.execute(command, commandSource);
+            DISPATCHER.execute(message.substring(1), commandSource);
             return true;
         } catch (CommandSyntaxException e) {
             boolean ignored = isIgnoredException(e.getType());
 
             if (ignored) {
-                LOGGER.debug("Syntax exception for client-sided command '{}'", command, e);
+                LOGGER.debug("Syntax exception for client-sided command '{}'", message, e);
                 return false;
             }
 
-            LOGGER.warn("Syntax exception for client-sided command '{}'", command, e);
+            LOGGER.warn("Syntax exception for client-sided command '{}'", message, e);
             commandSource.sendError(getErrorMessage(e));
             return true;
         } catch (CommandException e) {
-            LOGGER.warn("Error while executing client-sided command '{}'", command, e);
+            LOGGER.warn("Error while executing client-sided command '{}'", message, e);
             commandSource.sendError(e.getTextMessage());
             return true;
         } catch (RuntimeException e) {
-            LOGGER.warn("Error while executing client-sided command '{}'", command, e);
+            LOGGER.warn("Error while executing client-sided command '{}'", message, e);
             commandSource.sendError(Text.of(e.getMessage()));
             return true;
         } finally {
@@ -113,7 +111,7 @@ public final class ClientCommandInternals {
 
     /**
      * Tests whether a command syntax exception with the type
-     * should be ignored and the command sent to the server.
+     * should be ignored and the message sent to the server.
      *
      * @param type the exception type
      * @return true if ignored, false otherwise
@@ -127,12 +125,12 @@ public final class ClientCommandInternals {
         return type == builtins.dispatcherUnknownCommand() || type == builtins.dispatcherParseException();
     }
 
-    // See ChatInputSuggestor.formatException. That cannot be used directly as it returns an OrderedText instead of a Text.
+    // See CommandSuggestor.method_30505. That cannot be used directly as it returns an OrderedText instead of a Text.
     private static Text getErrorMessage(CommandSyntaxException e) {
         Text message = Texts.toText(e.getRawMessage());
         String context = e.getContext();
 
-        return context != null ? Text.translatable("command.context.parse_error", message, context) : message;
+        return context != null ? new TranslatableText("command.context.parse_error", message, context) : message;
     }
 
     /**
@@ -140,29 +138,29 @@ public final class ClientCommandInternals {
      * on the command dispatcher. Also registers a {@code /fcc help} command if there are other commands present.
      */
     public static void finalizeInit() {
-        if (!activeDispatcher.getRoot().getChildren().isEmpty()) {
+        if (!DISPATCHER.getRoot().getChildren().isEmpty()) {
             // Register an API command if there are other commands;
             // these helpers are not needed if there are no client commands
-            LiteralArgumentBuilder<FabricClientCommandSource> help = ClientCommandManager.literal("help");
+            LiteralArgumentBuilder<FabricClientCommandSource> help = literal("help");
             help.executes(ClientCommandInternals::executeRootHelp);
-            help.then(ClientCommandManager.argument("command", StringArgumentType.greedyString()).executes(ClientCommandInternals::executeArgumentHelp));
+            help.then(argument("command", StringArgumentType.greedyString()).executes(ClientCommandInternals::executeArgumentHelp));
 
-            CommandNode<FabricClientCommandSource> mainNode = activeDispatcher.register(ClientCommandManager.literal(API_COMMAND_NAME).then(help));
-            activeDispatcher.register(ClientCommandManager.literal(SHORT_API_COMMAND_NAME).redirect(mainNode));
+            CommandNode<FabricClientCommandSource> mainNode = DISPATCHER.register(literal(API_COMMAND_NAME).then(help));
+            DISPATCHER.register(literal(SHORT_API_COMMAND_NAME).redirect(mainNode));
         }
 
         // noinspection CodeBlock2Expr
-        activeDispatcher.findAmbiguities((parent, child, sibling, inputs) -> {
-            LOGGER.warn("Ambiguity between arguments {} and {} with inputs: {}", activeDispatcher.getPath(child), activeDispatcher.getPath(sibling), inputs);
+        DISPATCHER.findAmbiguities((parent, child, sibling, inputs) -> {
+            LOGGER.warn("Ambiguity between arguments {} and {} with inputs: {}", DISPATCHER.getPath(child), DISPATCHER.getPath(sibling), inputs);
         });
     }
 
     private static int executeRootHelp(CommandContext<FabricClientCommandSource> context) {
-        return executeHelp(activeDispatcher.getRoot(), context);
+        return executeHelp(DISPATCHER.getRoot(), context);
     }
 
     private static int executeArgumentHelp(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-        ParseResults<FabricClientCommandSource> parseResults = activeDispatcher.parse(StringArgumentType.getString(context, "command"), context.getSource());
+        ParseResults<FabricClientCommandSource> parseResults = DISPATCHER.parse(StringArgumentType.getString(context, "command"), context.getSource());
         List<ParsedCommandNode<FabricClientCommandSource>> nodes = parseResults.getContext().getNodes();
 
         if (nodes.isEmpty()) {
@@ -173,10 +171,10 @@ public final class ClientCommandInternals {
     }
 
     private static int executeHelp(CommandNode<FabricClientCommandSource> startNode, CommandContext<FabricClientCommandSource> context) {
-        Map<CommandNode<FabricClientCommandSource>, String> commands = activeDispatcher.getSmartUsage(startNode, context.getSource());
+        Map<CommandNode<FabricClientCommandSource>, String> commands = DISPATCHER.getSmartUsage(startNode, context.getSource());
 
         for (String command : commands.values()) {
-            context.getSource().sendFeedback(Text.literal("/" + command));
+            context.getSource().sendFeedback(new LiteralText("/" + command));
         }
 
         return commands.size();
@@ -184,8 +182,8 @@ public final class ClientCommandInternals {
 
     public static void addCommands(CommandDispatcher<FabricClientCommandSource> target, FabricClientCommandSource source) {
         Map<CommandNode<FabricClientCommandSource>, CommandNode<FabricClientCommandSource>> originalToCopy = new HashMap<>();
-        originalToCopy.put(activeDispatcher.getRoot(), target.getRoot());
-        copyChildren(activeDispatcher.getRoot(), target.getRoot(), source, originalToCopy);
+        originalToCopy.put(DISPATCHER.getRoot(), target.getRoot());
+        copyChildren(DISPATCHER.getRoot(), target.getRoot(), source, originalToCopy);
     }
 
     /**

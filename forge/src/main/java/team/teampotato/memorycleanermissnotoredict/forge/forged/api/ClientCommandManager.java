@@ -24,18 +24,14 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import org.jetbrains.annotations.Nullable;
-
-import team.teampotato.memorycleanermissnotoredict.forge.forged.impl.ClientCommandInternals;
-
 /**
  * Manages client-sided commands and provides some related helper methods.
  *
  * <p>Client-sided commands are fully executed on the client,
  * so players can use them in both singleplayer and multiplayer.
  *
- * <p>Registrations can be done in handlers for {@link ClientCommandRegistrationEvent#EVENT}
- * (See example below.)
+ * <p>Registrations can be done in the {@link #DISPATCHER} during a {@link net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent}'s
+ * initialization. (See example below.)
  *
  * <p>The commands are run on the client game thread by default.
  * Avoid doing any heavy calculations here as that can freeze the game's rendering.
@@ -53,31 +49,23 @@ import team.teampotato.memorycleanermissnotoredict.forge.forged.impl.ClientComma
  * <h2>Example command</h2>
  * <pre>
  * {@code
- * ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
- * 		dispatcher.register(
- * 			ClientCommandManager.literal("hello").executes(context -> {
- * 				context.getSource().sendFeedback(Text.literal("Hello, world!"));
- * 				return 0;
- * 			})
- * 		);
- * });
+ * ClientCommandManager.DISPATCHER.register(
+ * 	ClientCommandManager.literal("hello").executes(context -> {
+ * 		context.getSource().sendFeedback(new LiteralText("Hello, world!"));
+ * 		return 0;
+ * 	})
+ * );
  * }
  * </pre>
  */
 @OnlyIn(Dist.CLIENT)
 public final class ClientCommandManager {
-    private ClientCommandManager() {
-    }
-
     /**
-     * Gets the active command dispatcher that handles client command registration and execution.
-     *
-     * <p>May be null when not connected to a server (dedicated or integrated).</p>
-     *
-     * @return active dispatcher if present
+     * The command dispatcher that handles client command registration and execution.
      */
-    public static @Nullable CommandDispatcher<FabricClientCommandSource> getActiveDispatcher() {
-        return ClientCommandInternals.getActiveDispatcher();
+    public static final CommandDispatcher<FabricClientCommandSource> DISPATCHER = new CommandDispatcher<>();
+
+    private ClientCommandManager() {
     }
 
     /**
