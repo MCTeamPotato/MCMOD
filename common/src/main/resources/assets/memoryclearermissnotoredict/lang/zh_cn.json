@@ -4,5 +4,9 @@
 
   "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory": "开启自动清理内存",
   "text.autoconfig.memoryclearermissnotoredict.option.enableCommand": "开启指令",
-  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "自动清理间隔"
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "自动清理间隔",
+
+  "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory.@Tooltip": "是否启用倒计时自动清理",
+  "text.autoconfig.memoryclearermissnotoredict.option.enableCommand.@Tooltip": "是否启用客户端手动清理指令",
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval.@Tooltip": "清理间隔时间，单位为分钟（默认为8）"
 }
