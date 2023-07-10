@@ -2,9 +2,9 @@
   "memoryclearermissnotoredict.memoryclear": "[Memory Clearer Miss-not Ore Dict] (客户端) 内存清理完毕！现在内存使用百分比: %d %s",
   "memoryclearermissnotoredict.manualclear": "[Memory Clearer Miss-not Ore Dict] (客户端) 已开始清理！",
 
-  "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory": "开启自动清理内存",
-  "text.autoconfig.memoryclearermissnotoredict.option.enableCommand": "开启指令",
-  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "自动清理间隔",
+  "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory": "启用自动清理内存",
+  "text.autoconfig.memoryclearermissnotoredict.option.enableCommand": "启用客户端手动清理指令",
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "自动清理间隔时长",
 
   "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory.@Tooltip": "是否启用倒计时自动清理",
   "text.autoconfig.memoryclearermissnotoredict.option.enableCommand.@Tooltip": "是否启用客户端手动清理指令",
