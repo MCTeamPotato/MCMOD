@@ -16,10 +16,6 @@ public class ConfigUtil {
         return configScreen;
     }
 
-    public static void saveConfig() {
-        AutoConfig.getConfigHolder(getConfig().getClass()).save();
-    }
-
     public static void setConfigScreen() {
         Platform.getMod(MCMODMod.MOD_ID).registerConfigurationScreen(parent -> AutoConfig.getConfigScreen(ModConfigScreen.class, parent).get());
     }
