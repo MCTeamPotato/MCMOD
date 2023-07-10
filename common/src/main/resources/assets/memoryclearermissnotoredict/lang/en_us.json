@@ -4,5 +4,9 @@
 
   "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory": "Enable Auto Clean Memory",
   "text.autoconfig.memoryclearermissnotoredict.option.enableCommand": "Enable Command",
-  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "Clean Interval"
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval": "Clean Interval",
+
+  "text.autoconfig.memoryclearermissnotoredict.option.autoCleanMemory.@Tooltip": "Whether to enable countdown auto-clean",
+  "text.autoconfig.memoryclearermissnotoredict.option.enableCommand.@Tooltip": "Whether to enable the client manual cleanup command",
+  "text.autoconfig.memoryclearermissnotoredict.option.cleanupInterval.@Tooltip": "Clear interval time in minutes (default is 8)"
 }
