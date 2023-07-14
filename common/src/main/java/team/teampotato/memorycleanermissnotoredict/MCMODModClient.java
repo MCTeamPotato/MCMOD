@@ -15,11 +15,11 @@ public class MCMODModClient {
         MCMODMod.LOGGER.info(MCMODMod.MOD_NAME + " Running on client");
         ConfigUtil.setConfigScreen();
 
-        if (ConfigUtil.getConfig().autoCleanMemory) {
+        if (!ConfigUtil.getConfig().autoCleanMemory) {
             autoCleanMemory();
         }
 
-        if (ConfigUtil.getConfig().enableCommand) {
+        if (!ConfigUtil.getConfig().enableCommand) {
             ClientCommand.registerClientCommand();
         }
     }
