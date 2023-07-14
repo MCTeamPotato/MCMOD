@@ -1,6 +1,7 @@
 package team.teampotato.memorycleanermissnotoredict.forge;
 
 import dev.architectury.platform.forge.EventBuses;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import team.teampotato.memorycleanermissnotoredict.MCMODMod;
@@ -18,6 +19,8 @@ public class MCMODModForge {
         modEventBus.addListener(this::onInitialize);
         modEventBus.addListener(MCMODModClientForge::onInitializeClient);
         modEventBus.addListener(MCMODModServerForge::onInitializeServer);
+
+        MinecraftForge.EVENT_BUS.register(EventHandlerClientImpl.class);
     }
 
     public void onInitialize(FMLCommonSetupEvent event) {

@@ -1,18 +1,18 @@
-package team.teampotato.memorycleanermissnotoredict.fabric.command;
+package team.teampotato.memorycleanermissnotoredict.command;
 
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
 import team.teampotato.memorycleanermissnotoredict.MCMODModClient;
+import team.teampotato.memorycleanermissnotoredict.event.ClientCommandRegistrationEvent;
 
 public class ClientCommand {
     public static void registerClientCommand() {
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            ClientCommandManager.literal("mcmodclient")
+        ClientCommandRegistrationEvent.EVENT.register((dispatcher) -> {
+            ClientCommandRegistrationEvent.literal("mcmodclient")
                     .executes(context -> {
-                        MinecraftClient.getInstance().execute(() -> {//
+                        MinecraftClient.getInstance().execute(() -> {
                             if (MinecraftClient.getInstance().player != null) {
                                 MinecraftClient.getInstance().player.sendMessage(Text.translatable("memoryclearermissnotoredict.manualclear").formatted(Formatting.GREEN), false);
                             }

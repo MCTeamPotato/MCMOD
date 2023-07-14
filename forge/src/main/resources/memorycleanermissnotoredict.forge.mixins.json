@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "team.teampotato.memorycleanermissnotoredict.forge.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "MixinServerCommandSource"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

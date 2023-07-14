@@ -3,6 +3,8 @@ package team.teampotato.memorycleanermissnotoredict;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
+import team.teampotato.memorycleanermissnotoredict.command.ClientCommand;
 import team.teampotato.memorycleanermissnotoredict.config.ConfigUtil;
 
 import java.util.Timer;
@@ -15,6 +17,10 @@ public class MCMODModClient {
 
         if (ConfigUtil.getConfig().autoCleanMemory) {
             autoCleanMemory();
+        }
+
+        if (ConfigUtil.getConfig().enableCommand) {
+            ClientCommand.registerClientCommand();
         }
     }
 

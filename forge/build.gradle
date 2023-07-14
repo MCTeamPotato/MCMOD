@@ -9,6 +9,14 @@ architectury {
 
 project.archivesBaseName = rootProject.archivesBaseName + "-Forge"
 
+loom {
+    forge {
+        mixinConfigs = [
+                "memorycleanermissnotoredict.forge.mixins.json"
+        ]
+    }
+}
+
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
