@@ -18,23 +18,22 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package team.teampotato.memorycleanermissnotoredict.fabric;
+package team.teampotato.memorycleanermissnotoredict.forge.event;
 
 import com.mojang.brigadier.CommandDispatcher;
 
-import dev.architectury.event.events.client.ClientLifecycleEvent;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import team.teampotato.memorycleanermissnotoredict.event.ClientCommandRegistrationEvent;
 
-public class EventHandlerImpl {
-    @Environment(EnvType.CLIENT)
-    public static void registerClient() {
-        ClientLifecycleEvent.CLIENT_STARTED.register(instance -> {
-            ClientCommandRegistrationEvent.EVENT.invoker().register((CommandDispatcher<ClientCommandRegistrationEvent.ClientCommandSourceStack>) (CommandDispatcher<?>) ClientCommandManager.getActiveDispatcher());
-        });
+@OnlyIn(Dist.CLIENT)
+public class EventHandlerClientImpl {
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onClientCommandRegistration(RegisterClientCommandsEvent event) {
+        ClientCommandRegistrationEvent.EVENT.invoker().register((CommandDispatcher<ClientCommandRegistrationEvent.ClientCommandSourceStack>) (CommandDispatcher<?>) event.getDispatcher());
     }
 }

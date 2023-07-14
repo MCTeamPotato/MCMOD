@@ -3,7 +3,7 @@ package team.teampotato.memorycleanermissnotoredict;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import team.teampotato.memorycleanermissnotoredict.config.ConfigUtil;
+import team.teampotato.memorycleanermissnotoredict.util.ConfigUtil;
 
 public class MCMODMod {
     public static final String MOD_NAME = "Memory Clearer Miss-not Ore Dict";

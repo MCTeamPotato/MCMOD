@@ -1,9 +1,10 @@
-package team.teampotato.memorycleanermissnotoredict.config;
+package team.teampotato.memorycleanermissnotoredict.util;
 
 import dev.architectury.platform.Platform;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import team.teampotato.memorycleanermissnotoredict.MCMODMod;
+import team.teampotato.memorycleanermissnotoredict.config.ModConfigScreen;
 
 public class ConfigUtil {
     public static ModConfigScreen configScreen;

@@ -7,6 +7,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import team.teampotato.memorycleanermissnotoredict.MCMODMod;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import team.teampotato.memorycleanermissnotoredict.forge.event.EventHandlerClientImpl;
 
 @Mod(MCMODMod.MOD_ID)
 public class MCMODModForge {
