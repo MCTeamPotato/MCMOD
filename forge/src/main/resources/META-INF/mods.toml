@@ -23,20 +23,20 @@ side = "BOTH"
 [[dependencies.memorycleanermissnotoredict]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,1.18.2]"
+versionRange = "[1.17,1.17.1]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.memorycleanermissnotoredict]]
 modId = "architectury"
 mandatory = true
-versionRange = "[4,)"
+versionRange = "[2,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.memorycleanermissnotoredict]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[6,)"
+versionRange = "[5,)"
 ordering = "AFTER"
 side = "BOTH"
